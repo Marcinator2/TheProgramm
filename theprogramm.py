@@ -44,35 +44,25 @@ try:
     # Hier kannst du den DataFrame weiterverarbeiten oder abspeichern
     df_filtered = df[df['Differenz'] > 0]
 
-# Sortiere den gefilterten DataFrame nach der Spalte 'Differenz' absteigend
+    # Sortiere den gefilterten DataFrame nach der Spalte 'Differenz' absteigend
     df_sorted = df_filtered.sort_values(by='Differenz', ascending=False)
 
-# Entferne Zeilen, die Duplikate sind (ohne Berücksichtigung von 'Differenz')
+    # Entferne Zeilen, die Duplikate sind (ohne Berücksichtigung von 'Differenz')
     df_no_duplicates = df_sorted.drop_duplicates(subset=df_sorted.columns.difference(['Differenz']))
 
-# Zähle die Anzahl der Backprogramme
+    # Zähle die Anzahl der Backprogramme
     backprogram_counts = df_no_duplicates['BackprogrammName'].value_counts()
 
-# Sortiere die Zählungen in absteigender Reihenfolge
+    # Sortiere die Zählungen in absteigender Reihenfolge
     sorted_counts = backprogram_counts.sort_values(ascending=False)
 
-# Plotten des Donut-Diagramms
+    # Plotten des Donut-Diagramms
     fig, ax = plt.subplots()
 
-# Erstelle eine Liste von Farben für die Sektoren
+    # Erstelle eine Liste von Farben für die Sektoren
     colors = plt.cm.viridis_r(sorted_counts / float(sum(sorted_counts)))
 
-#  # Iteriere durch die Index- und Wertepaare von sorted_counts
-#     for idx, (backprogram, count) in enumerate(sorted_counts.items()):
-#           ax.pie([count], labels=[backprogram], colors=[colors[idx]], autopct='%1.1f%%', startangle=140, pctdistance=0.85, wedgeprops=dict(width=0.4))
-
-# # Füge einen Kreis in der Mitte hinzu, um ein Donut-Diagramm zu erstellen
-#     centre_circle = plt.Circle((0,0),0.70,fc='white')
-#     fig.gca().add_artist(centre_circle)
-
-
-
-    excel_file_path = './output_data.xlsx'
+    excel_file_path = './BPRG_Gruppe.xlsx'
 
 
     # Erstelle einen Excel-Writer
