@@ -10,7 +10,7 @@ def verbindungstest_machen():
     file_path = filedialog.askopenfilename(title="Datei auswählen", filetypes=[("CSV-Dateien", "*.csv")])
     if file_path:
         verbindungstest.machen(file_path)
-    tk.messagebox.showinfo(title=None, message="Fertig.")
+    tk.messagebox.showinfo(title=None, message="Verbindungstest fertig.")
 
 def bakingreports_machen():
     # Hier können Sie den Code für die Erstellung von Baking-Reports einfügen
@@ -18,7 +18,7 @@ def bakingreports_machen():
     file_path = filedialog.askopenfilename(title="Datei auswählen", filetypes=[("CSV-Dateien", "*.csv")])
     if file_path:
         bakingreports.machen(file_path)
-    tk.messagebox.showinfo(title=None, message="Fertig.")
+    tk.messagebox.showinfo(title=None, message="Bakingreport fertig.")
 
 def open_file_dialog():
     file_path = filedialog.askopenfilename(title="Datei auswählen", filetypes=[("CSV-Dateien", "*.csv")])
