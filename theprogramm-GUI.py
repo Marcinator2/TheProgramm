@@ -1,6 +1,10 @@
-import tkinter as tk
+from tkinter import *
+from tkinter.ttk import *
+from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import filedialog
+import tkinter as tk
+
 #import verbindungstest
 
 
@@ -36,16 +40,16 @@ original_image = Image.open("W-Net.png")  # Pfad zum Bild einfügen
 scale_percent = 15  # 50% Skalierung
 width = int(original_image.width * scale_percent / 100)
 height = int(original_image.height * scale_percent / 100)
-scaled_image = original_image.resize((width, height), Image.ANTIALIAS)
+scaled_image = original_image.resize((width, height), Image.LANCZOS)
 photo = ImageTk.PhotoImage(scaled_image)
 image_label = tk.Label(root, image=photo)
 image_label.pack()
 
 # Buttons erstellen
-verbindungstest_button = tk.Button(root, text="Verbindungstest machen", command=verbindungstest_machen)
+verbindungstest_button = ttk.Button(root, text="Verbindungstest machen", command=verbindungstest_machen)
 verbindungstest_button.pack()
 
-bakingreports_button = tk.Button(root, text="Bakingreports machen", command=bakingreports_machen)
+bakingreports_button = ttk.Button(root, text="Bakingreports machen", command=bakingreports_machen)
 bakingreports_button.pack()
 
 root.mainloop()
