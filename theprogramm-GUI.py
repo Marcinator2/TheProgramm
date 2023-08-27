@@ -5,9 +5,6 @@ from PIL import Image, ImageTk
 from tkinter import filedialog
 import tkinter as tk
 
-#import verbindungstest
-
-
 def verbindungstest_machen():
     # Hier können Sie den Code für den Verbindungstest einfügen
     import verbindungstest

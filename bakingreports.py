@@ -11,15 +11,9 @@ def machen(csv_file_path):
     # Annahme: Du hast zwei Zeitpunkte im Format "%Y-%m-%d %H:%M:%S"
     time_format = "%H:%M:%S"
 
-
-
     now = datetime.now()
     Start_time = now.strftime("%H:%M:%S")
     print("Skript wird gestartet:", Start_time)
-
-    # Annahme: Du hast eine CSV-Datei, die du einlesen möchtest
-   # csv_file_path = "./BackprogrammeProGruppe_german.csv"
-
 
     # Initialisiere die Header-Variable
     header_row = None
@@ -38,10 +32,7 @@ def machen(csv_file_path):
             
         # Setze den Header des DataFrames auf die gespeicherte Header-Zeile
         df.columns = header_row.split(',')
-        
-        # print("DataFrame nach Überspringen bis zum Header:")
-        # print(df)
-        
+
         # Hier kannst du den DataFrame weiterverarbeiten oder abspeichern
         df_filtered = df[df['Differenz'] > 0]
 
@@ -95,8 +86,34 @@ def machen(csv_file_path):
 
     ##############################################
 
-    # Plotten des einfachen Kuchendiagramms
-        plt.pie(backprogram_counts, labels=backprogram_counts.index, autopct='%1.1f%%', startangle=140)
+            # Plotten des einfachen Kuchendiagramms
+        # Zähle die Anzahl der Backprogramme
+        backprogram_counts = df['BackprogrammName'].value_counts()
+        backprogram_labels = backprogram_counts.index
+        # Berechne den Gesamtanteil aller Werte
+        total = sum(backprogram_counts)
+
+        # Sortiere die Zählungen in absteigender Reihenfolge
+        sorted_counts = backprogram_counts.sort_values(ascending=False)
+
+        # Erstelle eine leere Liste für die Labels, die angezeigt werden sollen
+        display_labels = []
+
+
+        # Tortendiagramm erstellen und Werte kleiner als 1% entfernen
+        def my_autopct(pct):
+            return f'{pct:.1f}%' if pct > 1 else ''
+
+        # Überprüfe, ob der Anteil größer als 1% ist, und füge das Label hinzu
+        for count, label in zip(backprogram_counts,  backprogram_labels):
+            percentage = (count / total) * 100
+            if percentage >= 1:
+                display_labels.append(label)
+            else:
+                display_labels.append('')
+
+        # Tortendiagramm erstellen
+        plt.pie(backprogram_counts, labels=display_labels, autopct=my_autopct)
 
     # Zeige das Diagramm an
         ax.axis('off')  # Stellt sicher, dass das Diagramm rund ist
@@ -107,7 +124,6 @@ def machen(csv_file_path):
         # Speichere den Plot als Bild
         plot_image_path = './plot_image.png'
         plt.savefig(plot_image_path, format='png')
-    # plt.close()
 
         # Füge das Plot-Bild in eine Excel-Datei ein
         excel_with_plot_path = csv_file_path[:-3] +"xlsx"          #'./output_with_plot.xlsx'
@@ -117,22 +133,16 @@ def machen(csv_file_path):
         # Füge den DataFrame in das Excel-Arbeitsblatt ein
         for r_idx, row in enumerate(df_no_duplicates.values):
             for c_idx, value in enumerate(row):
-                ws.cell(row=r_idx + 1, column=c_idx + 1, value=value)
+                ws.cell(row=r_idx + 5, column=c_idx + 1, value=value)
 
         # Füge das Plot-Bild in das Excel-Arbeitsblatt ein
         img = Image(plot_image_path)
         ws.add_image(img, 'G1')
         # Speichere die Excel-Datei mit DataFrame und Plot
         
-
-
-        #print("Skript wird in excel gespeichert. Bischerige Dauer:", type(Dauer))
-        
         wb.save(excel_with_plot_path)
         
         print(f"Excel-Datei mit DataFrame und Plot wurde in '{excel_with_plot_path}' gespeichert.")
-
-
 
     except FileNotFoundError:
         print(f"Datei '{csv_file_path}' nicht gefunden.")
